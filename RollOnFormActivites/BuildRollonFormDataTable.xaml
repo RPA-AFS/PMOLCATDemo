@@ -1,0 +1,290 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Sequence" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_dtRoleReviewInfo" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="in_dtAttachments" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_dicConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_dtEmailAttachments" Type="InArgument(sd:DataTable)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1069,2391</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Sequence_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="24">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="19">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="***********************************&#xA;This sequence will perform the following:&#xA;1.) Find all the roll on forms in the Email Attachments folder&#xA;2.) Loop through this folder and process each file in folder&#xA;3.) Open File&#xA;4.) Check to see if Career Level is &quot;Subcontractor&quot;. If true, do nothing and move to processed roll on form folder.  &#xA;5.) If not equal to Subcontractor then extract values from Roll on Form and write line to Roll on Form information data table.&#xA;6.) Once file read, move to processed roll on form folder. &#xA;***********************************" DisplayName="Sequence" sap:VirtualizedContainerService.HintSize="1049,2331" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="sFolderPath" />
+      <Variable x:TypeArguments="s:String[]" Name="arrFilePath" />
+      <Variable x:TypeArguments="x:String" Name="sCandidateName" />
+      <Variable x:TypeArguments="x:String" Name="sContractProject" />
+      <Variable x:TypeArguments="x:String" Name="sLaborCategory" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtProccessingRollOnForms" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtRejectedRollOnForms" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="Assign folder path to Email Attachments" sap:VirtualizedContainerService.HintSize="1007,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[sFolderPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\RollOnForms\"]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:BuildDataTable DataTable="[dtProccessingRollOnForms]" DisplayName="Build Data Table for Proccessing Roll on Forms" sap:VirtualizedContainerService.HintSize="1007,59" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;FilePath&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:BuildDataTable>
+    <ui:BuildDataTable DataTable="[dtRejectedRollOnForms]" DisplayName="Build Data Table for Rejected Roll on Forms" sap:VirtualizedContainerService.HintSize="1007,59" sap2010:WorkflowViewState.IdRef="BuildDataTable_2" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;FilePath&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+    <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[in_dtEmailAttachments]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="1007,1612" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+      <ui:ForEachRow.Body>
+        <ActivityAction x:TypeArguments="sd:DataRow">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="sd:DataRow" Name="File" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="957,1464" sap2010:WorkflowViewState.IdRef="Sequence_15">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="ui:WorkbookApplication" Name="sSession" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="915,1372" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_2" Workbook="[sSession]" WorkbookPath="[File(0).ToString]">
+              <ui:ExcelApplicationScope.Body>
+                <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                  </ActivityAction.Argument>
+                  <Sequence sap:VirtualizedContainerService.HintSize="881,1263" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="ui:GenericValue" Name="sCareerLevel" />
+                      <Variable x:TypeArguments="x:Boolean" Name="bCarrerLevel" />
+                    </Sequence.Variables>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:ExcelReadCell Cell="B14" DisplayName="Read Career Level" sap:VirtualizedContainerService.HintSize="839,59" sap2010:WorkflowViewState.IdRef="ExcelReadCell_8" SheetName="Roll on Form">
+                      <ui:ExcelReadCell.Result>
+                        <OutArgument x:TypeArguments="ui:GenericValue">[sCareerLevel]</OutArgument>
+                      </ui:ExcelReadCell.Result>
+                    </ui:ExcelReadCell>
+                    <If Condition="[sCareerLevel &lt;&gt; &quot;Subcontractor&quot;]" DisplayName="If Career Level not equal to &quot;Subcontractor&quot;" sap:VirtualizedContainerService.HintSize="839,1072" sap2010:WorkflowViewState.IdRef="If_1">
+                      <If.Then>
+                        <Sequence DisplayName="Process Roll on Form" sap:VirtualizedContainerService.HintSize="418,925" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="x:String" Name="sFileName" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <Sequence DisplayName="Grab Roll on Form Information and add Data Row" sap:VirtualizedContainerService.HintSize="376,510" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="ui:GenericValue" Name="sPersonalNumber" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:ExcelReadCell Cell="B1" DisplayName="Read Candidate Name" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadCell_4" SheetName="Roll on Form">
+                              <ui:ExcelReadCell.Result>
+                                <OutArgument x:TypeArguments="x:String">[sCandidateName]</OutArgument>
+                              </ui:ExcelReadCell.Result>
+                            </ui:ExcelReadCell>
+                            <ui:ExcelReadCell Cell="B13" DisplayName="Read Personal Number" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadCell_7" SheetName="Roll on Form">
+                              <ui:ExcelReadCell.Result>
+                                <OutArgument x:TypeArguments="ui:GenericValue">[sPersonalNumber]</OutArgument>
+                              </ui:ExcelReadCell.Result>
+                            </ui:ExcelReadCell>
+                            <ui:ExcelReadCell Cell="B3" DisplayName="Read Contract Project" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadCell_5" SheetName="Roll on Form">
+                              <ui:ExcelReadCell.Result>
+                                <OutArgument x:TypeArguments="x:String">[sContractProject]</OutArgument>
+                              </ui:ExcelReadCell.Result>
+                            </ui:ExcelReadCell>
+                            <ui:ExcelReadCell Cell="B8" DisplayName="Read Labor Catagory" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadCell_6" SheetName="Roll on Form">
+                              <ui:ExcelReadCell.Result>
+                                <OutArgument x:TypeArguments="x:String">[sLaborCategory]</OutArgument>
+                              </ui:ExcelReadCell.Result>
+                            </ui:ExcelReadCell>
+                            <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{File(0).ToString, sLaborCategory, sContractProject, sCandidateName, sPersonalNumber, File(1).ToString}]" DataTable="[in_dtRoleReviewInfo]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="AddDataRow_2" />
+                          </Sequence>
+                          <ui:ExcelCloseWorkbook DisplayName="Close Workbook" sap:VirtualizedContainerService.HintSize="376,59" sap2010:WorkflowViewState.IdRef="ExcelCloseWorkbook_2" Workbook="[sSession]" />
+                          <Assign sap:VirtualizedContainerService.HintSize="376,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[sFileName]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[File(0).ToString.Substring(sFolderPath.Length)]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <ui:CopyFile ContinueOnError="{x:Null}" Destination="[in_dicConfig(&quot;SharePointProcessingRollOnFormsPath&quot;).ToString+ sFileName]" DisplayName="Copy File" sap:VirtualizedContainerService.HintSize="376,22" sap2010:WorkflowViewState.IdRef="CopyFile_1" Overwrite="True" Path="[File(0).ToString]" />
+                          <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{File(0).ToString}]" DataTable="[dtProccessingRollOnForms]" DisplayName="Add Filepath to Processing datatable" sap:VirtualizedContainerService.HintSize="376,22" sap2010:WorkflowViewState.IdRef="AddDataRow_3" />
+                        </Sequence>
+                      </If.Then>
+                      <If.Else>
+                        <Sequence DisplayName="Move Roll on Form to Rejected Folder" sap:VirtualizedContainerService.HintSize="376,375" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="x:String" Name="sFileName" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:ExcelCloseWorkbook DisplayName="Close Workbook" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelCloseWorkbook_3" Workbook="[sSession]" />
+                          <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[sFileName]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">[File(0).ToString.Substring(sFolderPath.Length)]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <ui:CopyFile ContinueOnError="{x:Null}" Destination="[in_dicConfig(&quot;SharePointRejectedRollOnFormsPath&quot;).ToString + sFileName]" DisplayName="Copy File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="CopyFile_2" Overwrite="True" Path="[File(0).ToString]" />
+                          <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{File(0).ToString}]" DataTable="[dtRejectedRollOnForms]" DisplayName="Add Filepath to Rejected" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="AddDataRow_4" />
+                        </Sequence>
+                      </If.Else>
+                    </If>
+                  </Sequence>
+                </ActivityAction>
+              </ui:ExcelApplicationScope.Body>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:ExcelApplicationScope>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEachRow.Body>
+    </ui:ForEachRow>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="1007,51" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="759,326" sap2010:WorkflowViewState.IdRef="Sequence_13">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If Condition="[dtProccessingRollOnForms Is Nothing OrElse dtProccessingRollOnForms.Rows.Count = 0]" DisplayName="Check to see if there is any Processing Roll on Forms to upload" sap:VirtualizedContainerService.HintSize="717,234" sap2010:WorkflowViewState.IdRef="If_2">
+            <If.Then>
+              <ui:Comment sap:VirtualizedContainerService.HintSize="334,55" sap2010:WorkflowViewState.IdRef="Comment_1" Text="// Do Nothing" />
+            </If.Then>
+            <If.Else>
+              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Upload Processing Roll on Forms" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="SharePointActivites\UploadRollOnFormFile.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dicConfig">[in_dicConfig]</InArgument>
+                  <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtFileList">[dtProccessingRollOnForms]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_sStatus">Processing</InArgument>
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+            </If.Else>
+          </If>
+        </Sequence>
+      </ui:CommentOut.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="1007,51" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="759,326" sap2010:WorkflowViewState.IdRef="Sequence_14">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If Condition="[dtRejectedRollOnForms Is Nothing OrElse dtRejectedRollOnForms.Rows.Count = 0]" DisplayName="Check to see if there is any Rejected Roll on Forms to upload" sap:VirtualizedContainerService.HintSize="717,234" sap2010:WorkflowViewState.IdRef="If_3">
+            <If.Then>
+              <ui:Comment sap:VirtualizedContainerService.HintSize="334,55" sap2010:WorkflowViewState.IdRef="Comment_2" Text="// Do Nothing" />
+            </If.Then>
+            <If.Else>
+              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Upload Rejected Roll on Forms" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="SharePointActivites\UploadRollOnFormFile.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dicConfig">[in_dicConfig]</InArgument>
+                  <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtFileList">[dtRejectedRollOnForms]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_sStatus">Rejected</InArgument>
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+            </If.Else>
+          </If>
+        </Sequence>
+      </ui:CommentOut.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CommentOut>
+  </Sequence>
+</Activity>

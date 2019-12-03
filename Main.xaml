@@ -1,0 +1,524 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="684,2196" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="24">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Database</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="40">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart sap2010:Annotation.AnnotationText="***********************************&#xA;Bot Name: LCAT Bot&#xA;Bot Creator: Patrick Wylie&#xA;Last Updated: 12/2/2019&#xA;************************************&#xA;Bot will perform&#xA;1.) Reading off information from the Config File&#xA;2.) Create a Dictionary of LCAT Role Keywords&#xA;3.) Reading through a desginated Email folder and downloading all Roll on Forms&#xA;4.) Reading through those Roll on Forms creating a datatable&#xA;5.) Extract the requirements for each Labor Catagory&#xA;6.) Populate first column in Resume Review&#xA;7.) Parse through and extract relevant information from candidate's resume&#xA;8.) Fill second column  with candidate roll on form information&#xA;9.) Place canidates roll on form, resume and resume review into folder to be zipped&#xA;10.) Zip the folder and upload to sharepoint.&#xA;************************************" sap:VirtualizedContainerService.HintSize="664,2136" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="dtAttachments" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtRoleReviewInfo" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="dicConfig" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtResumeReviewPaths" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, s:String[])" Name="dctLCATKeywords" />
+    </Flowchart.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        <av:Point x:Key="ShapeLocation">280,2.5</av:Point>
+        <av:Size x:Key="ShapeSize">60,75</av:Size>
+        <av:PointCollection x:Key="ConnectorLocation">310,77.5 310,88.5</av:PointCollection>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        <x:Double x:Key="Height">1833</x:Double>
+        <x:Double x:Key="Width">630</x:Double>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Flowchart.StartNode>
+      <x:Reference>__ReferenceID9</x:Reference>
+    </Flowchart.StartNode>
+    <FlowStep x:Name="__ReferenceID9">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <av:Point x:Key="ShapeLocation">210,88.5</av:Point>
+          <av:Size x:Key="ShapeSize">200,153</av:Size>
+          <av:PointCollection x:Key="ConnectorLocation">310,241.5 310,251</av:PointCollection>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Sequence sap2010:Annotation.AnnotationText="Runs Init workflow to grab dictonary of values from the Config.csv file. and runs workflow to create LCAT Keyword dictionary." DisplayName="Config" sap:VirtualizedContainerService.HintSize="200,153" sap2010:WorkflowViewState.IdRef="Sequence_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="377,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Begining DW Init Config&quot;]" />
+        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Run Init" sap:VirtualizedContainerService.HintSize="377,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Init.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="out_Config">[dicConfig]</OutArgument>
+            <InArgument x:TypeArguments="s:String[]" x:Key="in_ConfigSheets">[{"Settings","Constants"}]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_ConfigFile">Data\Config.xlsx</InArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="377,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;DW Init Config Complete&quot;]" />
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="377,91" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Info" Message="[&quot;Creating LCAT Keyword Dictionary&quot;]" />
+        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke CreateLCATRoleDictionary workflow" sap:VirtualizedContainerService.HintSize="377,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="LCATRoleXLSXActivites\CreateLCATRoleDictionary.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dctConfig">[dicConfig]</InArgument>
+            <OutArgument x:TypeArguments="scg:Dictionary(x:String, s:String[])" x:Key="out_dctLCATKeywords">[dctLCATKeywords]</OutArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="377,91" sap2010:WorkflowViewState.IdRef="LogMessage_19" Level="Info" Message="[&quot;LCAT Keyword Dictionary Created&quot;]" />
+      </Sequence>
+      <FlowStep.Next>
+        <FlowStep x:Name="__ReferenceID1">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:Point x:Key="ShapeLocation">210,251</av:Point>
+              <av:Size x:Key="ShapeSize">200,198</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">310,449 310,467</av:PointCollection>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Sequence sap2010:Annotation.AnnotationText="Goes into specified Email and looks at the specifed folder for the Roll on Forms. It will read through all the unread emails pertaining to roll on forms and downloading the attachments to the EmailAttachments folder. " DisplayName="Email Monitoring" sap:VirtualizedContainerService.HintSize="200,198" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="aMail" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Begining Email Extraction&quot;]" />
+            <ui:GetOutlookMailMessages Filter="{x:Null}" TimeoutMS="{x:Null}" Account="[dicConfig(&quot;sEmailAccount&quot;).ToString]" DisplayName="Get Outlook Mail Messages" GetAttachements="False" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="GetOutlookMailMessages_1" MailFolder="[dicConfig(&quot;sMailFolder&quot;).ToString]" MarkAsRead="False" Messages="[aMail]" OnlyUnreadMessages="True" Top="30" />
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Downloading Email Attachments&quot;]" />
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Download Email Attachments Workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="EmailActivities\GetEmailAttachments.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_LMail">[aMail]</InArgument>
+                <InOutArgument x:TypeArguments="sd:DataTable" x:Key="out_dtAttachments">[dtAttachments]</InOutArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Email Extraction and Attachment download complete&quot;]" />
+          </Sequence>
+          <FlowStep.Next>
+            <FlowStep x:Name="__ReferenceID2">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <av:Point x:Key="ShapeLocation">210,467</av:Point>
+                  <av:Size x:Key="ShapeSize">200,228</av:Size>
+                  <av:PointCollection x:Key="ConnectorLocation">310,695 310,717</av:PointCollection>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <Sequence sap2010:Annotation.AnnotationText="Read each one of the Roll on Forms downloaded from the unread emails. If the email is for a subcontractor poistion the form is uploaded to the Rejected forms in sharepoint, and if it isn't then the bot will read off the necassary information in order to fill out the Resume Review Form" DisplayName="Role Information Extraction" sap:VirtualizedContainerService.HintSize="200,228" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="366,91" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Roll on Forms data Extraction start&quot;]" />
+                <ui:BuildDataTable DataTable="[dtRoleReviewInfo]" DisplayName="Build Data Table to hold Roll on Form Information" sap:VirtualizedContainerService.HintSize="366,59" sap2010:WorkflowViewState.IdRef="BuildDataTable_2" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;RollOnFormPath&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Role&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Current_x0020_Project&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;Candidate_x0020_Name&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;CandidateID&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;ResumePath&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+                <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Read downloaded Roll on Forms" sap:VirtualizedContainerService.HintSize="366,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="RollOnFormActivites/BuildRollonFormDataTable.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InOutArgument x:TypeArguments="sd:DataTable" x:Key="in_dtRoleReviewInfo">[dtRoleReviewInfo]</InOutArgument>
+                    <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtAttachments">[dtAttachments]</InArgument>
+                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dicConfig">[dicConfig]</InArgument>
+                    <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtEmailAttachments">[dtAttachments]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="366,91" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Information from Roll on Forms extracted&quot;]" />
+              </Sequence>
+              <FlowStep.Next>
+                <FlowStep x:Name="__ReferenceID3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <av:Point x:Key="ShapeLocation">210,717</av:Point>
+                      <av:Size x:Key="ShapeSize">200,168</av:Size>
+                      <av:PointCollection x:Key="ConnectorLocation">310,885 310,936.5</av:PointCollection>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Sequence sap2010:Annotation.AnnotationText="Taking the information for each of the approved Roll on Forms, fill out the header, and first column of the Resume Review, and then upload the file to Sharepoint." DisplayName="Fill First Column of Resume Review" sap:VirtualizedContainerService.HintSize="200,168" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="847,91" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Insert Roll on Data into Resume Review&quot;]" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Create Resume Reviews and Fill First Column" sap:VirtualizedContainerService.HintSize="847,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="LCATRoleXLSXActivites\GetLCATRoleInformation.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtRoleReviewInfo">[dtRoleReviewInfo]</InArgument>
+                        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dicConfig">[dicConfig]</InArgument>
+                        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dtResumeReviewPATHS">[dtResumeReviewPaths]</OutArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="847,91" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;Information succesfuly placed into Resume Review&quot;]" />
+                    <If Condition="[dtResumeReviewPaths Is Nothing OrElse dtResumeReviewPaths.Rows.Count = 0]" DisplayName="Check to see if there are any Resume Reviews to upload" sap:VirtualizedContainerService.HintSize="847,1055" sap2010:WorkflowViewState.IdRef="If_1">
+                      <If.Then>
+                        <ui:Comment sap:VirtualizedContainerService.HintSize="334,55" sap2010:WorkflowViewState.IdRef="Comment_1" Text="// Do Nothing" />
+                      </If.Then>
+                      <If.Else>
+                        <Sequence sap:VirtualizedContainerService.HintSize="468,907" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[dtResumeReviewPaths]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="426,724" sap2010:WorkflowViewState.IdRef="ForEachRow_2">
+                            <ui:ForEachRow.Body>
+                              <ActivityAction x:TypeArguments="sd:DataRow">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="sd:DataRow" Name="file" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="376,576" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                                  <Sequence.Variables>
+                                    <Variable x:TypeArguments="x:String" Name="sFilePath" />
+                                    <Variable x:TypeArguments="x:String" Name="sFolderPath" />
+                                  </Sequence.Variables>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;Uploading Files to Sharepoint&quot;]" />
+                                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[sFolderPath]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\ResumeReviews\"]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[sFilePath]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[file(0).ToString.Substring(sFolderPath.Length)]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <ui:CopyFile ContinueOnError="{x:Null}" Destination="[dicConfig(&quot;SharePointResumeReviewsPath&quot;).ToString + sFilePath]" DisplayName="Copy File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="CopyFile_1" Overwrite="True" Path="[file(0).ToString]" />
+                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info" Message="[&quot;Files uploaded to Sharepoint&quot;]" />
+                                </Sequence>
+                              </ActivityAction>
+                            </ui:ForEachRow.Body>
+                          </ui:ForEachRow>
+                          <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="426,51" sap2010:WorkflowViewState.IdRef="CommentOut_3">
+                            <ui:CommentOut.Body>
+                              <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="395,179" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Upload Resume Reviews into Sharepoint" sap:VirtualizedContainerService.HintSize="353,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="SharePointActivites\UploadResumeReviewFile.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dicConfig">[dicConfig]</InArgument>
+                                    <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtResumeReviewPaths">[dtResumeReviewPaths]</InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                </ui:InvokeWorkflowFile>
+                              </Sequence>
+                            </ui:CommentOut.Body>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:CommentOut>
+                        </Sequence>
+                      </If.Else>
+                    </If>
+                  </Sequence>
+                  <FlowStep.Next>
+                    <FlowSwitch x:TypeArguments="x:String" x:Name="__ReferenceID6" DisplayName="Flow Switch" Expression="[dicConfig(&quot;PMOTeamID&quot;).ToString]" sap:VirtualizedContainerService.HintSize="70,87" sap2010:WorkflowViewState.IdRef="FlowSwitch`1_1">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <av:Point x:Key="ShapeLocation">275,936.5</av:Point>
+                          <av:Size x:Key="ShapeSize">70,87</av:Size>
+                          <av:PointCollection x:Key="PMO TEAM 2Connector">310,1023.5 310,1126.04</av:PointCollection>
+                          <av:PointCollection x:Key="PMO TEAM 3Connector">327.5,1023.5 327.5,1053.5 520,1053.5 520,1126</av:PointCollection>
+                          <av:PointCollection x:Key="PMO TEAM 1Connector">292.5,1023.5 292.5,1053.5 100,1053.5 100,1126</av:PointCollection>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <FlowStep x:Key="PMO TEAM 1" x:Name="__ReferenceID8">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <av:Point x:Key="ShapeLocation">0,1126</av:Point>
+                            <av:Size x:Key="ShapeSize">200,228</av:Size>
+                            <av:PointCollection x:Key="ConnectorLocation">100,1354 100,1384 310,1384 310,1403.5</av:PointCollection>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Sequence sap2010:Annotation.AnnotationText="The purpose of this sequence is to open up the Candidate Resumes, extract the information for Education, Experience, Certifications and other.  Then the extracted text will be placed into the relative rows in the second column of the Resume Review document." DisplayName="PMO1: Fill Second Column of Resume Review Form" sap:VirtualizedContainerService.HintSize="200,228" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="379,91" sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Info" Message="[&quot;Begining Resume Data Extraction&quot;]" />
+                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke FillSecondColumnResumeReview workflow" sap:VirtualizedContainerService.HintSize="379,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_14" UnSafe="False" WorkflowFileName="ResumeActivites\FillSecondColumnResumeReviewConfig1.xaml">
+                            <ui:InvokeWorkflowFile.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_sResumeFolderPath">[dicConfig("LocalResumeFolderPath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_sLCATRoleXLSXPath">[dicConfig("LCATCatagoryXLSXPath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtResumeReviewPath">[dtResumeReviewPaths]</InArgument>
+                              <InArgument x:TypeArguments="scg:Dictionary(x:String, s:String[])" x:Key="in_dctLCATKeywords">[dctLCATKeywords]</InArgument>
+                            </ui:InvokeWorkflowFile.Arguments>
+                          </ui:InvokeWorkflowFile>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="379,91" sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Info" Message="[&quot;Second Columns of Resume Reviews Complete&quot;]" />
+                        </Sequence>
+                        <FlowStep.Next>
+                          <FlowStep x:Name="__ReferenceID0">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <av:Point x:Key="ShapeLocation">210,1403.5</av:Point>
+                                <av:Size x:Key="ShapeSize">200,213</av:Size>
+                                <av:PointCollection x:Key="ConnectorLocation">310,1616.5 310,1657</av:PointCollection>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <Sequence sap2010:Annotation.AnnotationText="This sequence serves the purpose of  creating indiviudal folders for each candidate and placing their Roll on Form and Resume Review into the folder.  The purpose of this is creating easy to zip locations for the DW in the next sequence." DisplayName="Create Folder to be Zipped" sap:VirtualizedContainerService.HintSize="200,213" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="426,91" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Creating Candidate Folders&quot;]" />
+                              <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[dtResumeReviewPaths]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="426,846" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                                <ui:ForEachRow.Body>
+                                  <ActivityAction x:TypeArguments="sd:DataRow">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                                    </ActivityAction.Argument>
+                                    <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="376,698" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                                      <Sequence.Variables>
+                                        <Variable x:TypeArguments="x:String" Name="sCandidateName" />
+                                        <Variable x:TypeArguments="x:String" Name="sLCATRole" />
+                                      </Sequence.Variables>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+                                        <Assign.To>
+                                          <OutArgument x:TypeArguments="x:String">[sCandidateName]</OutArgument>
+                                        </Assign.To>
+                                        <Assign.Value>
+                                          <InArgument x:TypeArguments="x:String">[row(2).ToString]</InArgument>
+                                        </Assign.Value>
+                                      </Assign>
+                                      <ui:Replace BuilderPattern="\s*" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Replace_1" Input="[sCandidateName]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;WHITESP&quot;,&quot;OperationName&quot;:&quot;Whitespace&quot;,&quot;OperationValue&quot;:&quot;\\s&quot;,&quot;QuantifierFirstValue&quot;:&quot;*&quot;,&quot;QuantifierID&quot;:&quot;ANY&quot;,&quot;QuantifierName&quot;:&quot;Any (0 or more)&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="\s*" RegexOption="IgnoreCase" Result="[sCandidateName]">
+                                        <ui:Replace.Replacement>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <Literal x:TypeArguments="x:String" Value="" />
+                                          </InArgument>
+                                        </ui:Replace.Replacement>
+                                      </ui:Replace>
+                                      <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+                                        <Assign.To>
+                                          <OutArgument x:TypeArguments="x:String">[sLCATRole]</OutArgument>
+                                        </Assign.To>
+                                        <Assign.Value>
+                                          <InArgument x:TypeArguments="x:String">[row(3).ToString]</InArgument>
+                                        </Assign.Value>
+                                      </Assign>
+                                      <ui:Replace BuilderPattern="\s*" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Replace_2" Input="[sLCATRole]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;WHITESP&quot;,&quot;OperationName&quot;:&quot;Whitespace&quot;,&quot;OperationValue&quot;:&quot;\\s&quot;,&quot;QuantifierFirstValue&quot;:&quot;*&quot;,&quot;QuantifierID&quot;:&quot;ANY&quot;,&quot;QuantifierName&quot;:&quot;Any (0 or more)&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="\s*" RegexOption="IgnoreCase" Result="[sLCATRole]">
+                                        <ui:Replace.Replacement>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <Literal x:TypeArguments="x:String" Value="" />
+                                          </InArgument>
+                                        </ui:Replace.Replacement>
+                                      </ui:Replace>
+                                      <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Directory" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Path="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ZipFolders\&quot; + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" />
+                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ZipFolders\&quot; + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_1" Overwrite="True" Path="[row(0).ToString]" />
+                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ZipFolders\&quot; + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_2" Overwrite="True" Path="[row(1).ToString]" />
+                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ZipFolders\&quot; + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_3" Overwrite="True" Path="[row(4).ToString]" />
+                                    </Sequence>
+                                  </ActivityAction>
+                                </ui:ForEachRow.Body>
+                              </ui:ForEachRow>
+                              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="426,91" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;Candidate Folders ready to be zipped&quot;]" />
+                            </Sequence>
+                            <FlowStep.Next>
+                              <FlowStep x:Name="__ReferenceID5">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <av:Point x:Key="ShapeLocation">210,1657</av:Point>
+                                    <av:Size x:Key="ShapeSize">200,168</av:Size>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Sequence sap2010:Annotation.AnnotationText="This sequence will loop through each of the candidate zip folder and proceed to zip the folder and then upload the ZIP file onto sharepoint." DisplayName="Create and Upload Zip File" sap:VirtualizedContainerService.HintSize="200,168" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                                  <Sequence.Variables>
+                                    <Variable x:TypeArguments="x:String" Name="sFolderPath" />
+                                    <Variable x:TypeArguments="x:String" Name="sZippedFolder" />
+                                    <Variable x:TypeArguments="x:String" Name="sLocalZippedFolder" />
+                                  </Sequence.Variables>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[sFolderPath]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\ZipFolders"]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[sZippedFolder]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[dicConfig("SharePointCompletedZIPSPath").ToString]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[sLocalZippedFolder]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\ZippedFiles"]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Info" Message="[&quot;Zipping and uploading to Sharepoint&quot;]" />
+                                  <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ZIPFolders workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="ResumeReviewActivities\ZIPFolders.xaml">
+                                    <ui:InvokeWorkflowFile.Arguments>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_sPath">[sFolderPath]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_sEndPath">[sLocalZippedFolder]</InArgument>
+                                    </ui:InvokeWorkflowFile.Arguments>
+                                  </ui:InvokeWorkflowFile>
+                                  <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Files Uploaded to Sharepoint&quot;]" TopMost="True" />
+                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;Zipped files succesfully uploaded to Sharepoint&quot;]" />
+                                  <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke UploadZippedFolder workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="SharePointActivites\UploadZippedFolder.xaml">
+                                    <ui:InvokeWorkflowFile.Arguments>
+                                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dctConfig">[dicConfig]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_sZippedFolder">[sLocalZippedFolder]</InArgument>
+                                    </ui:InvokeWorkflowFile.Arguments>
+                                  </ui:InvokeWorkflowFile>
+                                </Sequence>
+                              </FlowStep>
+                            </FlowStep.Next>
+                          </FlowStep>
+                        </FlowStep.Next>
+                      </FlowStep>
+                      <FlowStep x:Key="PMO TEAM 3" x:Name="__ReferenceID7">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <av:Point x:Key="ShapeLocation">420,1126</av:Point>
+                            <av:Size x:Key="ShapeSize">200,228</av:Size>
+                            <av:PointCollection x:Key="ConnectorLocation">520,1354 520,1384 310,1384 310,1403.5</av:PointCollection>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Sequence sap2010:Annotation.AnnotationText="The purpose of this sequence is to open up the Candidate Resumes, extract the information for Education, Experience, Certifications and other.  Then the extracted text will be placed into the relative rows in the second column of the Resume Review document." DisplayName="PMO3: Fill Second Column of Resume Review Form" sap:VirtualizedContainerService.HintSize="200,228" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="379,91" sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Info" Message="[&quot;Begining Resume Data Extraction&quot;]" />
+                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke FillSecondColumnResumeReview workflow" sap:VirtualizedContainerService.HintSize="379,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_13" UnSafe="False" WorkflowFileName="ResumeActivites\FillSecondColumnResumeReviewConfig3.xaml">
+                            <ui:InvokeWorkflowFile.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_sResumeFolderPath">[dicConfig("LocalResumeFolderPath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_sLCATRoleXLSXPath">[dicConfig("LCATCatagoryXLSXPath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtResumeReviewPath">[dtResumeReviewPaths]</InArgument>
+                              <InArgument x:TypeArguments="scg:Dictionary(x:String, s:String[])" x:Key="in_dctLCATKeywords">[dctLCATKeywords]</InArgument>
+                            </ui:InvokeWorkflowFile.Arguments>
+                          </ui:InvokeWorkflowFile>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="379,91" sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Info" Message="[&quot;Second Columns of Resume Reviews Complete&quot;]" />
+                        </Sequence>
+                        <FlowStep.Next>
+                          <x:Reference>__ReferenceID0</x:Reference>
+                        </FlowStep.Next>
+                      </FlowStep>
+                      <FlowStep x:Key="PMO TEAM 2" x:Name="__ReferenceID4">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <av:Point x:Key="ShapeLocation">210,1126.04</av:Point>
+                            <av:Size x:Key="ShapeSize">200,228</av:Size>
+                            <av:PointCollection x:Key="ConnectorLocation">310,1354.04 310,1403.5</av:PointCollection>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Sequence sap2010:Annotation.AnnotationText="The purpose of this sequence is to open up the Candidate Resumes, extract the information for Education, Experience, Certifications and other.  Then the extracted text will be placed into the relative rows in the second column of the Resume Review document." DisplayName="PMO2: Fill Second Column" sap:VirtualizedContainerService.HintSize="200,228" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="379,91" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Info" Message="[&quot;Begining Resume Data Extraction&quot;]" />
+                          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke FillSecondColumnResumeReview workflow" sap:VirtualizedContainerService.HintSize="379,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="ResumeActivites\FillSecondColumnResumeReviewConfig2.xaml">
+                            <ui:InvokeWorkflowFile.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_sResumeFolderPath">[dicConfig("LocalResumeFolderPath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="x:String" x:Key="in_sLCATRoleXLSXPath">[dicConfig("LCATCatagoryXLSXPath").ToString]</InArgument>
+                              <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtResumeReviewPath">[dtResumeReviewPaths]</InArgument>
+                              <InArgument x:TypeArguments="scg:Dictionary(x:String, s:String[])" x:Key="in_dctLCATKeywords">[dctLCATKeywords]</InArgument>
+                            </ui:InvokeWorkflowFile.Arguments>
+                          </ui:InvokeWorkflowFile>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="379,91" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Info" Message="[&quot;Second Columns of Resume Reviews Complete&quot;]" />
+                        </Sequence>
+                        <FlowStep.Next>
+                          <x:Reference>__ReferenceID0</x:Reference>
+                        </FlowStep.Next>
+                      </FlowStep>
+                    </FlowSwitch>
+                  </FlowStep.Next>
+                </FlowStep>
+              </FlowStep.Next>
+            </FlowStep>
+          </FlowStep.Next>
+        </FlowStep>
+      </FlowStep.Next>
+    </FlowStep>
+    <x:Reference>__ReferenceID1</x:Reference>
+    <x:Reference>__ReferenceID2</x:Reference>
+    <x:Reference>__ReferenceID3</x:Reference>
+    <x:Reference>__ReferenceID4</x:Reference>
+    <x:Reference>__ReferenceID5</x:Reference>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <x:Reference>__ReferenceID6</x:Reference>
+    <x:Reference>__ReferenceID7</x:Reference>
+    <x:Reference>__ReferenceID8</x:Reference>
+  </Flowchart>
+</Activity>
