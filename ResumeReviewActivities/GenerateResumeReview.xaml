@@ -8,6 +8,7 @@
     <x:Property Name="out_dtResumeReviewFiles" Type="InOutArgument(sd:DataTable)" />
     <x:Property Name="in_RollOnFormPath" Type="InArgument(x:String)" />
     <x:Property Name="in_ResumePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_dctConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -82,8 +83,8 @@
                 <x:Boolean x:Key="IsPinned">False</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ui:CopyFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ResumeReviews\&quot; + in_sCandidateID + &quot;_&quot; + in_sLaborCatagory +&quot;ResumeReview.PDF&quot;]" DisplayName="Create Resume Review File" sap:VirtualizedContainerService.HintSize="434,22" sap2010:WorkflowViewState.IdRef="CopyFile_1" Overwrite="True" Path="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\Resume_Review_Template.pdf&quot;]" />
-            <ui:OpenApplication ApplicationWindow="{x:Null}" FileName="{x:Null}" TimeoutMS="{x:Null}" WorkingDirectory="{x:Null}" Arguments="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ResumeReviews\&quot; + in_sCandidateID + &quot;_&quot; + in_sLaborCatagory +&quot;ResumeReview.PDF&quot;]" DisplayName="Open Adobe Acrobat" sap:VirtualizedContainerService.HintSize="434,3462" sap2010:WorkflowViewState.IdRef="OpenApplication_1" InformativeScreenshot="15eb953fe1280437453be51834a682d2" Selector="&lt;wnd app='acrord32.exe' cls='AcrobatSDIWindow' /&gt;">
+            <ui:CopyFile ContinueOnError="{x:Null}" Destination="[in_dctConfig(&quot;LocalResumeReviewFolderPath&quot;).ToString + in_sCandidateID + &quot;_&quot; + in_sLaborCatagory +&quot;ResumeReview.PDF&quot;]" DisplayName="Create Resume Review File" sap:VirtualizedContainerService.HintSize="434,22" sap2010:WorkflowViewState.IdRef="CopyFile_1" Overwrite="True" Path="[in_dctConfig(&quot;ResumeReviewTemplatePath&quot;).ToString]" />
+            <ui:OpenApplication ApplicationWindow="{x:Null}" FileName="{x:Null}" TimeoutMS="{x:Null}" WorkingDirectory="{x:Null}" Arguments="[in_dctConfig(&quot;LocalResumeReviewFolderPath&quot;).ToString + in_sCandidateID + &quot;_&quot; + in_sLaborCatagory +&quot;ResumeReview.PDF&quot;]" DisplayName="Open Adobe Acrobat" sap:VirtualizedContainerService.HintSize="434,3462" sap2010:WorkflowViewState.IdRef="OpenApplication_1" InformativeScreenshot="15eb953fe1280437453be51834a682d2" Selector="&lt;wnd app='acrord32.exe' cls='AcrobatSDIWindow' /&gt;">
               <ui:OpenApplication.Body>
                 <ActivityAction x:TypeArguments="x:Object">
                   <ActivityAction.Argument>
@@ -224,7 +225,7 @@
                         </ui:Target>
                       </ui:Click.Target>
                     </ui:Click>
-                    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="Save File as" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="TypeInto_8" SimulateType="True" Text="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ResumeReviews\&quot; + in_sCandidateID + &quot;_&quot; + in_sLaborCatagory +&quot;ResumeReview.PDF&quot;]">
+                    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="Save File as" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="TypeInto_8" SimulateType="True" Text="[in_dctConfig(&quot;LocalResumeReviewFolderPath&quot;).ToString + in_sCandidateID + &quot;_&quot; + in_sLaborCatagory +&quot;ResumeReview.PDF&quot;]">
                       <ui:TypeInto.Target>
                         <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" InformativeScreenshot="36b39c0cbfb94a07b703c44b522f30b0" Selector="&lt;wnd app='acrord32.exe' cls='#32770' title='Save As' /&gt;&lt;wnd aaname='Explorer Pane' cls='DirectUIHWND' /&gt;&lt;wnd aaname='File name:' cls='ComboBox' /&gt;&lt;wnd ctrlid='1001' /&gt;">
                           <ui:Target.TimeoutMS>
@@ -241,7 +242,7 @@
                         <OutArgument x:TypeArguments="x:String">[sFilePath]</OutArgument>
                       </Assign.To>
                       <Assign.Value>
-                        <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\ResumeReviews\" + in_sCandidateID + "_" + in_sLaborCatagory +"ResumeReview.PDF"]</InArgument>
+                        <InArgument x:TypeArguments="x:String">[in_dctConfig("LocalResumeReviewFolderPath").ToString + in_sCandidateID + "_" + in_sLaborCatagory +"ResumeReview.PDF"]</InArgument>
                       </Assign.Value>
                     </Assign>
                     <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'Button'" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="Click_2" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
@@ -288,7 +289,7 @@
                         </ui:Target>
                       </ui:Click.Target>
                     </ui:Click>
-                    <ui:MessageBox Buttons="Ok" Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Column 1 Complete&quot;]" TopMost="True" />
+                    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Column 1 Complete&quot;]" TopMost="True" />
                     <ui:CloseApplication DisplayName="Close Adobe Acrobat" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="CloseApplication_1">
                       <ui:CloseApplication.Target>
                         <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" InformativeScreenshot="a1fa6d4e83220fc2f7815868757ed0e6">

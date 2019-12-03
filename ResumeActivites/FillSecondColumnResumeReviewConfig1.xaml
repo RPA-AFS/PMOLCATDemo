@@ -8,7 +8,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>706,2566</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>706,2606</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>FillSecondColumnResumeReview_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="22">
@@ -103,7 +103,7 @@
                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
-                      <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="IE" DisplayName="Attach Browser 'FileCUser Page'" sap:VirtualizedContainerService.HintSize="434,1760" sap2010:WorkflowViewState.IdRef="BrowserScope_1" InformativeScreenshot="15720541210525210b1d93d3b33fda31" Selector="&lt;html url='file://C:\Users\patrick.wylie\Documents\UiPath\TestingLCATProcess\Resumes\*.html' /&gt;">
+                      <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="IE" DisplayName="Attach Browser 'FileCUser Page'" sap:VirtualizedContainerService.HintSize="434,1760" sap2010:WorkflowViewState.IdRef="BrowserScope_1" InformativeScreenshot="15720541210525210b1d93d3b33fda31" Selector="&lt;html url='*.html' /&gt;">
                         <ui:BrowserScope.Body>
                           <ActivityAction x:TypeArguments="x:Object">
                             <ActivityAction.Argument>

@@ -16,6 +16,20 @@
     },
     {
       "Package": {
+        "Id": "Microsoft.Activities",
+        "Version": "1.0.1"
+      },
+      "Assemblies": [
+        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Activities.Design.Services.dll",
+        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Activities.Design.dll",
+        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Activities.dll",
+        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Workflow.Client.dll",
+        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Workflow.Common.dll",
+        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Workflow.Tracing.dll"
+      ]
+    },
+    {
+      "Package": {
         "Id": "System.IO.Compression",
         "Version": "4.3.0"
       },
@@ -268,20 +282,6 @@
         "C:\\Users\\patrick.wylie\\.nuget\\packages\\uipath.vision/1.8.1-beta.553481\\lib/net452/UiPath.Vision.MicrosoftCloud.dll",
         "C:\\Users\\patrick.wylie\\.nuget\\packages\\uipath.vision/1.8.1-beta.553481\\lib/net452/UiPath.Vision.Tesseract.dll",
         "C:\\Users\\patrick.wylie\\.nuget\\packages\\uipath.vision/1.8.1-beta.553481\\lib/net452/UiPath.Vision.dll"
-      ]
-    },
-    {
-      "Package": {
-        "Id": "Microsoft.Activities",
-        "Version": "1.0.1"
-      },
-      "Assemblies": [
-        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Activities.Design.dll",
-        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Activities.Design.Services.dll",
-        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Activities.dll",
-        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Workflow.Client.dll",
-        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Workflow.Common.dll",
-        "C:\\Users\\patrick.wylie\\.nuget\\packages\\microsoft.activities/1.0.1\\lib/net45/Microsoft.Workflow.Tracing.dll"
       ]
     }
   ],

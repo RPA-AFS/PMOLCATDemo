@@ -2,6 +2,7 @@
   <x:Members>
     <x:Property Name="in_sFolderPath" Type="InArgument(x:String)" />
     <x:Property Name="in_dtEmailAttachments" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="in_dctConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -105,13 +106,13 @@
                       <InArgument x:TypeArguments="x:String">[File.Substring(in_sFolderPath.Length)]</InArgument>
                     </Assign.Value>
                   </Assign>
-                  <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot;+ Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\RollOnForms\&quot; + sFileName]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="MoveFile_1" Overwrite="True" Path="[File]" />
+                  <ui:MoveFile ContinueOnError="{x:Null}" Destination="[in_dctConfig(&quot;LocalRollonFormsFolderPath&quot;).ToString + sFileName]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="MoveFile_1" Overwrite="True" Path="[File]" />
                   <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_2">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:String">[sRollOnForm]</OutArgument>
                     </Assign.To>
                     <Assign.Value>
-                      <InArgument x:TypeArguments="x:String">["C:\Users\"+ Environment.UserName + "\Documents\UiPath\TestingLCATProcess\RollOnForms\" + sFileName]</InArgument>
+                      <InArgument x:TypeArguments="x:String">[in_dctConfig("LocalRollonFormsFolderPath").ToString + sFileName]</InArgument>
                     </Assign.Value>
                   </Assign>
                 </Sequence>
@@ -139,13 +140,13 @@
                       <InArgument x:TypeArguments="x:String">[File.Substring(in_sFolderPath.Length)]</InArgument>
                     </Assign.Value>
                   </Assign>
-                  <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot;+ Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\Resumes\&quot; + sFileName]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="MoveFile_2" Overwrite="True" Path="[File]" />
+                  <ui:MoveFile ContinueOnError="{x:Null}" Destination="[in_dctConfig(&quot;LocalResumeFolderPath&quot;).ToString+ sFileName]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="MoveFile_2" Overwrite="True" Path="[File]" />
                   <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_7">
                     <Assign.To>
                       <OutArgument x:TypeArguments="x:String">[sResume]</OutArgument>
                     </Assign.To>
                     <Assign.Value>
-                      <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\Resumes" + sFileName]</InArgument>
+                      <InArgument x:TypeArguments="x:String">[in_dctConfig("LocalResumeFolderPath").ToString + sFileName]</InArgument>
                     </Assign.Value>
                   </Assign>
                 </Sequence>

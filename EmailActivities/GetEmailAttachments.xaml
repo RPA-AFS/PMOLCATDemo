@@ -2,6 +2,7 @@
   <x:Members>
     <x:Property Name="in_LMail" Type="InArgument(scg:List(snm:MailMessage))" />
     <x:Property Name="out_dtAttachments" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="in_dctConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -35,7 +36,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="18">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="36">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -54,6 +55,7 @@
       <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:Annotation.AnnotationText="***********************************&#xA;Sequence will peform the following:&#xA;1.) Loop through all UnRead emails in specified folder.&#xA;2.) See if Email subject will contain &quot;Roll on Form&quot;&#xA;3.) Download attachments for all emails this pertains to.&#xA;4.) If the subject line does not contain &quot;Roll on Form&quot; do nothing.  &#xA;***********************************" DisplayName="GetEmailAttachments" sap:VirtualizedContainerService.HintSize="875,988" sap2010:WorkflowViewState.IdRef="Sequence_1">
@@ -90,23 +92,12 @@
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\EmailAttachments&quot;]" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_1" Message="[Message]" />
+                  <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="[in_dctConfig(&quot;LocalEmailAttachmentFolderPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_1" Message="[Message]" />
                   <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke CreateAttachmentDT workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="EmailActivities\CreateAttachmentDT.xaml">
                     <ui:InvokeWorkflowFile.Arguments>
-                      <InArgument x:TypeArguments="x:String" x:Key="in_sFolderPath">
-                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\EmailAttachments&quot;">
-                          <mva:VisualBasicValue.Result>
-                            <OutArgument x:TypeArguments="x:String" />
-                          </mva:VisualBasicValue.Result>
-                        </mva:VisualBasicValue>
-                      </InArgument>
-                      <InOutArgument x:TypeArguments="sd:DataTable" x:Key="in_dtEmailAttachments">
-                        <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="out_dtAttachments">
-                          <mva:VisualBasicReference.Result>
-                            <OutArgument x:TypeArguments="Location(sd:DataTable)" />
-                          </mva:VisualBasicReference.Result>
-                        </mva:VisualBasicReference>
-                      </InOutArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_sFolderPath">[in_dctConfig("LocalEmailAttachmentFolderPath").ToString]</InArgument>
+                      <InOutArgument x:TypeArguments="sd:DataTable" x:Key="in_dtEmailAttachments">[out_dtAttachments]</InOutArgument>
+                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dctConfig">[in_dctConfig]</InArgument>
                     </ui:InvokeWorkflowFile.Arguments>
                   </ui:InvokeWorkflowFile>
                 </Sequence>

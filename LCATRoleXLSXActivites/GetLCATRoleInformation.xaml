@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>655,1616</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>599,1616</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>GetLCATRoleInformation_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="22">
@@ -57,7 +57,7 @@
       <AssemblyReference>System.ServiceModel</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="GetLCATRoleInformation" sap:VirtualizedContainerService.HintSize="635,1516" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="GetLCATRoleInformation" sap:VirtualizedContainerService.HintSize="579,1516" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="sd:DataTable" Name="dtOutput" />
     </Sequence.Variables>
@@ -66,8 +66,8 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:BuildDataTable DataTable="[out_dtResumeReviewPATHS]" DisplayName="Create datatable to store paths to Resume Reviews" sap:VirtualizedContainerService.HintSize="593,59" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xD;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xD;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xD;&#xA;      &lt;xs:complexType&gt;&#xD;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xD;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xD;&#xA;            &lt;xs:complexType&gt;&#xD;&#xA;              &lt;xs:sequence&gt;&#xD;&#xA;                &lt;xs:element name=&quot;ResumeReviewPaths&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;RoleOnFormPath&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;CandidateName&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;LCATName&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;ResumePath&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;              &lt;/xs:sequence&gt;&#xD;&#xA;            &lt;/xs:complexType&gt;&#xD;&#xA;          &lt;/xs:element&gt;&#xD;&#xA;        &lt;/xs:choice&gt;&#xD;&#xA;      &lt;/xs:complexType&gt;&#xD;&#xA;    &lt;/xs:element&gt;&#xD;&#xA;  &lt;/xs:schema&gt;&#xD;&#xA;&lt;/NewDataSet&gt;" />
-    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="593,1325" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" WorkbookPath="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\LCATRoles.xlsx&quot;]">
+    <ui:BuildDataTable DataTable="[out_dtResumeReviewPATHS]" DisplayName="Create datatable to store paths to Resume Reviews" sap:VirtualizedContainerService.HintSize="537,59" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;ResumeReviewPaths&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;RoleOnFormPath&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;CandidateName&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;LCATName&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;                &lt;xs:element name=&quot;ResumePath&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="537,1325" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" WorkbookPath="[in_dicConfig(&quot;LCATCatagoryXLSXPath&quot;).ToString]">
       <ui:ExcelApplicationScope.Body>
         <ActivityAction x:TypeArguments="ui:WorkbookApplication">
           <ActivityAction.Argument>
@@ -181,62 +181,15 @@
                     </ui:FilterDataTable>
                     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Generate Resume Review" sap:VirtualizedContainerService.HintSize="369,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="ResumeReviewActivities\GenerateResumeReview.xaml">
                       <ui:InvokeWorkflowFile.Arguments>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_sLaborCatagory">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sLaborCatagory">
-                            <mva:VisualBasicValue.Result>
-                              <OutArgument x:TypeArguments="x:String" />
-                            </mva:VisualBasicValue.Result>
-                          </mva:VisualBasicValue>
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_sContractProject">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sContractProject">
-                            <mva:VisualBasicValue.Result>
-                              <OutArgument x:TypeArguments="x:String" />
-                            </mva:VisualBasicValue.Result>
-                          </mva:VisualBasicValue>
-                        </InArgument>
-                        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtOutput">
-                          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dtOutput">
-                            <mva:VisualBasicValue.Result>
-                              <OutArgument x:TypeArguments="sd:DataTable" />
-                            </mva:VisualBasicValue.Result>
-                          </mva:VisualBasicValue>
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_sCandidateID">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sCandidateID">
-                            <mva:VisualBasicValue.Result>
-                              <OutArgument x:TypeArguments="x:String" />
-                            </mva:VisualBasicValue.Result>
-                          </mva:VisualBasicValue>
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_sCadidateName">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sCandidateName">
-                            <mva:VisualBasicValue.Result>
-                              <OutArgument x:TypeArguments="x:String" />
-                            </mva:VisualBasicValue.Result>
-                          </mva:VisualBasicValue>
-                        </InArgument>
-                        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="out_dtResumeReviewFiles">
-                          <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="out_dtResumeReviewPATHS">
-                            <mva:VisualBasicReference.Result>
-                              <OutArgument x:TypeArguments="Location(sd:DataTable)" />
-                            </mva:VisualBasicReference.Result>
-                          </mva:VisualBasicReference>
-                        </InOutArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_RollOnFormPath">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sRollOnFormPath">
-                            <mva:VisualBasicValue.Result>
-                              <OutArgument x:TypeArguments="x:String" />
-                            </mva:VisualBasicValue.Result>
-                          </mva:VisualBasicValue>
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_ResumePath">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sResumePath">
-                            <mva:VisualBasicValue.Result>
-                              <OutArgument x:TypeArguments="x:String" />
-                            </mva:VisualBasicValue.Result>
-                          </mva:VisualBasicValue>
-                        </InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_sLaborCatagory">[sLaborCatagory]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_sContractProject">[sContractProject]</InArgument>
+                        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtOutput">[dtOutput]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_sCandidateID">[sCandidateID]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_sCadidateName">[sCandidateName]</InArgument>
+                        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="out_dtResumeReviewFiles">[out_dtResumeReviewPATHS]</InOutArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_RollOnFormPath">[sRollOnFormPath]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_ResumePath">[sResumePath]</InArgument>
+                        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dctConfig">[in_dicConfig]</InArgument>
                       </ui:InvokeWorkflowFile.Arguments>
                     </ui:InvokeWorkflowFile>
                   </Sequence>

@@ -49,9 +49,10 @@
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
       <AssemblyReference>UiPath.Database</AssemblyReference>
       <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart sap2010:Annotation.AnnotationText="***********************************&#xA;Bot Name: LCAT Bot&#xA;Bot Creator: Patrick Wylie&#xA;Last Updated: 12/2/2019&#xA;************************************&#xA;Bot will perform&#xA;1.) Reading off information from the Config File&#xA;2.) Create a Dictionary of LCAT Role Keywords&#xA;3.) Reading through a desginated Email folder and downloading all Roll on Forms&#xA;4.) Reading through those Roll on Forms creating a datatable&#xA;5.) Extract the requirements for each Labor Catagory&#xA;6.) Populate first column in Resume Review&#xA;7.) Parse through and extract relevant information from candidate's resume&#xA;8.) Fill second column  with candidate roll on form information&#xA;9.) Place canidates roll on form, resume and resume review into folder to be zipped&#xA;10.) Zip the folder and upload to sharepoint.&#xA;************************************" sap:VirtualizedContainerService.HintSize="664,2136" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+  <Flowchart sap2010:Annotation.AnnotationText="***********************************&#xA;Bot Name: LCAT Bot&#xA;Bot Creator: Patrick Wylie&#xA;Last Updated: 12/03/2019&#xA;************************************&#xA;Bot will perform&#xA;1.) Reading off information from the Config File&#xA;2.) Create a Dictionary of LCAT Role Keywords&#xA;3.) Reading through a desginated Email folder and downloading all Roll on Forms&#xA;4.) Reading through those Roll on Forms creating a datatable&#xA;5.) Extract the requirements for each Labor Catagory&#xA;6.) Populate first column in Resume Review&#xA;7.) Parse through and extract relevant information from candidate's resume&#xA;8.) Fill second column  with candidate roll on form information&#xA;9.) Place canidates roll on form, resume and resume review into folder to be zipped&#xA;10.) Zip the folder and upload to sharepoint.&#xA;************************************" sap:VirtualizedContainerService.HintSize="664,2136" sap2010:WorkflowViewState.IdRef="Flowchart_1">
     <Flowchart.Variables>
       <Variable x:TypeArguments="sd:DataTable" Name="dtAttachments" />
       <Variable x:TypeArguments="sd:DataTable" Name="dtRoleReviewInfo" />
@@ -133,6 +134,7 @@
               <ui:InvokeWorkflowFile.Arguments>
                 <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_LMail">[aMail]</InArgument>
                 <InOutArgument x:TypeArguments="sd:DataTable" x:Key="out_dtAttachments">[dtAttachments]</InOutArgument>
+                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dctConfig">[dicConfig]</InArgument>
               </ui:InvokeWorkflowFile.Arguments>
             </ui:InvokeWorkflowFile>
             <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Email Extraction and Attachment download complete&quot;]" />
@@ -223,7 +225,7 @@
                                       <OutArgument x:TypeArguments="x:String">[sFolderPath]</OutArgument>
                                     </Assign.To>
                                     <Assign.Value>
-                                      <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\ResumeReviews\"]</InArgument>
+                                      <InArgument x:TypeArguments="x:String">[dicConfig("LocalResumeReviewFolderPath").ToString]</InArgument>
                                     </Assign.Value>
                                   </Assign>
                                   <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_7">
@@ -367,10 +369,10 @@
                                           </InArgument>
                                         </ui:Replace.Replacement>
                                       </ui:Replace>
-                                      <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Directory" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Path="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ZipFolders\&quot; + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" />
-                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ZipFolders\&quot; + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_1" Overwrite="True" Path="[row(0).ToString]" />
-                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ZipFolders\&quot; + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_2" Overwrite="True" Path="[row(1).ToString]" />
-                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;C:\Users\&quot; + Environment.UserName + &quot;\Documents\UiPath\TestingLCATProcess\ZipFolders\&quot; + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_3" Overwrite="True" Path="[row(4).ToString]" />
+                                      <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Directory" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Path="[dicConfig(&quot;LocalZIPFoldersPath&quot;).ToString + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" />
+                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[dicConfig(&quot;LocalZIPFoldersPath&quot;).ToString + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_1" Overwrite="True" Path="[row(0).ToString]" />
+                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[dicConfig(&quot;LocalZIPFoldersPath&quot;).ToString + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_2" Overwrite="True" Path="[row(1).ToString]" />
+                                      <ui:MoveFile ContinueOnError="{x:Null}" Destination="[dicConfig(&quot;LocalZIPFoldersPath&quot;).ToString + sCandidateName + &quot;_&quot; + sLCATRole + &quot;\&quot;]" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="MoveFile_3" Overwrite="True" Path="[row(4).ToString]" />
                                     </Sequence>
                                   </ActivityAction>
                                 </ui:ForEachRow.Body>
@@ -402,7 +404,7 @@
                                       <OutArgument x:TypeArguments="x:String">[sFolderPath]</OutArgument>
                                     </Assign.To>
                                     <Assign.Value>
-                                      <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\ZipFolders"]</InArgument>
+                                      <InArgument x:TypeArguments="x:String">[dicConfig("LocalZIPFoldersPath").ToString]</InArgument>
                                     </Assign.Value>
                                   </Assign>
                                   <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_3">
@@ -418,24 +420,41 @@
                                       <OutArgument x:TypeArguments="x:String">[sLocalZippedFolder]</OutArgument>
                                     </Assign.To>
                                     <Assign.Value>
-                                      <InArgument x:TypeArguments="x:String">["C:\Users\" + Environment.UserName + "\Documents\UiPath\TestingLCATProcess\ZippedFiles"]</InArgument>
+                                      <InArgument x:TypeArguments="x:String">[dicConfig("LocalZippedFilesFolderPath").ToString]</InArgument>
                                     </Assign.Value>
                                   </Assign>
                                   <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Info" Message="[&quot;Zipping and uploading to Sharepoint&quot;]" />
                                   <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ZIPFolders workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="ResumeReviewActivities\ZIPFolders.xaml">
                                     <ui:InvokeWorkflowFile.Arguments>
                                       <InArgument x:TypeArguments="x:String" x:Key="in_sPath">[sFolderPath]</InArgument>
-                                      <InArgument x:TypeArguments="x:String" x:Key="in_sEndPath">[sLocalZippedFolder]</InArgument>
+                                      <InArgument x:TypeArguments="x:String" x:Key="in_sEndPath">[sZippedFolder]</InArgument>
                                     </ui:InvokeWorkflowFile.Arguments>
                                   </ui:InvokeWorkflowFile>
                                   <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Files Uploaded to Sharepoint&quot;]" TopMost="True" />
                                   <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;Zipped files succesfully uploaded to Sharepoint&quot;]" />
-                                  <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke UploadZippedFolder workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="SharePointActivites\UploadZippedFolder.xaml">
-                                    <ui:InvokeWorkflowFile.Arguments>
-                                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dctConfig">[dicConfig]</InArgument>
-                                      <InArgument x:TypeArguments="x:String" x:Key="in_sZippedFolder">[sLocalZippedFolder]</InArgument>
-                                    </ui:InvokeWorkflowFile.Arguments>
-                                  </ui:InvokeWorkflowFile>
+                                  <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="CommentOut_4">
+                                    <ui:CommentOut.Body>
+                                      <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="376,179" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke UploadZippedFolder workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="SharePointActivites\UploadZippedFolder.xaml">
+                                          <ui:InvokeWorkflowFile.Arguments>
+                                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_dctConfig">[dicConfig]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_sZippedFolder">[sLocalZippedFolder]</InArgument>
+                                          </ui:InvokeWorkflowFile.Arguments>
+                                        </ui:InvokeWorkflowFile>
+                                      </Sequence>
+                                    </ui:CommentOut.Body>
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:CommentOut>
                                 </Sequence>
                               </FlowStep>
                             </FlowStep.Next>
