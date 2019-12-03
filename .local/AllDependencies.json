@@ -2488,9 +2488,9 @@
     "restore": {
       "projectUniqueName": "TestingLCATProcess",
       "projectName": "TestingLCATProcess",
-      "projectPath": "C:\\Users\\patrick.wylie\\Documents\\UiPath\\TestingLCATProcess\\.local",
+      "projectPath": "C:\\Users\\patrick.wylie\\Documents\\UiPath\\PrivateRepos\\PMOLCATDemo\\.local",
       "packagesPath": "C:\\Users\\patrick.wylie\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\patrick.wylie\\Documents\\UiPath\\TestingLCATProcess\\.local"
+      "outputPath": "C:\\Users\\patrick.wylie\\Documents\\UiPath\\PrivateRepos\\PMOLCATDemo\\.local"
     },
     "frameworks": {
       "net461": {
